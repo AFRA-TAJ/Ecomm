@@ -5,16 +5,24 @@
 
 
 import unittest
-from EcommerceSystem import Product
+from ENTITY.Customer import Customers
+from ENTITY.Product import Products
+from DAO.OrderProcess import OrderProcessorRepository
 
-class TestProductCreation(unittest.TestCase):
+class TestEcommerce(unittest.TestCase):
+    def setUp(self):
+        # Create an instance of OrderProcessorRepository before each test
+        self.opr = OrderProcessorRepository()
 
     def test_product_creation(self):
-        product = Product("1", "product_name", 100)
-        self.assertEqual(product.product_id, "1")
-        self.assertEqual(product.name, "product_name")
-        self.assertEqual(product.price, 100)
+        prod = Products(product_id=102, pname='TV', price=80000, description='LED screen.', stock_quantity=200)
+        result = self.opr.create_product(product=prod)
+        self.assertTrue(result, 'Product Creation Successful.')
+
+    def test_customer_registration(self):
+        cust = Customers(customer_id=1, cname='yash', email='yash@example.com', password='1234')
+        result = self.opr.create_customer(customer=cust)
+        self.assertTrue(result, 'Customer Registration Successful.')
 
 if __name__ == '__main__':
     unittest.main()
-
